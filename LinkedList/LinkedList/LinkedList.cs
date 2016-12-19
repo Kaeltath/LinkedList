@@ -31,7 +31,7 @@ namespace LinkedList
             if (_head == null) 
             {
                 _head = addNode;
-                _tail = addNode;
+                _tail = addNode;                
             }
             else
             {
@@ -49,17 +49,16 @@ namespace LinkedList
         public void Remove(int index)
         {
             int counter = 1;
-            if (_head != null)
+            if (Checking(index))
             {
                 Node<T> Temp = _head;
                 Node<T> Previous = null;
-                if (size >= index)
-                {
-                    if (size == 1) 
+                if (size == 1) 
                     {
                         _head = null;
+                        size--;
                     }
-                    else 
+                else 
                     {
                         if (index == 1) 
                         {
@@ -85,28 +84,16 @@ namespace LinkedList
                             Previous.NextNode = Temp.NextNode;
                             size--;
                         }
-                     }
-                }
-                else 
-                {
-                    Console.WriteLine("There are no element with such index");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Buffer is empty");
-            }
+                     }  
+            }           
 
         }
 
         public T Get(int index)
         {
            int counter = 1;
-            if (_head != null)
-            {
-                Node<T> Temp = _head;
-                if (size >= index)
-                {
+           if (Checking(index))
+           {        Node<T> Temp = _head;
                     if (index == 1)
                     {
                         return _head.Data;
@@ -115,14 +102,11 @@ namespace LinkedList
                     {
                         Temp = Temp.NextNode;
                         counter++;
-                    }
-                    
-                    return Temp.Data;
-                }
-                Console.WriteLine("No element in such index");                
-            }
-            Console.WriteLine("buffer is empty");
-           return default (T);
+                    }                    
+                    return Temp.Data;         
+             }
+           return default(T);
+           
         }
 
         public void Print() 
@@ -137,7 +121,49 @@ namespace LinkedList
             }
           
         }
+
+        public void Insert(T item, int index) 
+        {
+            int counter = 1;
+            Node<T> InsNode = new Node<T>(item);
+            if (Checking(index))
+            {
+
+                Node<T> Temp = _head;
+                Node<T> Previous = null;
+                if (index == 1)
+                {
+                    InsNode.NextNode = _head;
+                    _head = InsNode;
+                    return;
+                }
+                while (counter < index)
+                {
+                    Previous = Temp;
+                    Temp = Temp.NextNode;
+                    counter++;
+                }
+                InsNode.NextNode = Temp;
+                Previous.NextNode = InsNode;
+                size++;
+            }
+            else if (_head == null && index == 1)                              
+                {
+                    _head = InsNode;
+                    _tail = InsNode;
+                    size++;
+                }
+         }
+
+        private bool Checking(int index)
+                {
+                    if (_head == null || index > size)
+                    {
+                        Console.WriteLine("Buffer is empty, or index is out of range");
+                        return false;
+                    }
+                    return true;
+                }
+       }
        
-               
-    }
 }
