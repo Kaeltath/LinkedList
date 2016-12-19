@@ -143,7 +143,7 @@ namespace LinkedList
                     Temp = Temp.NextNode;
                     counter++;
                 }
-                InsNode.NextNode = Temp;
+                InsNode.NextNode = Temp.NextNode;
                 Previous.NextNode = InsNode;
                 size++;
             }
